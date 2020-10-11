@@ -1,7 +1,7 @@
 import tkinter as tk
-#import RequestTab
-#import StashCount
-#import FilterUpdate
+import requesttab
+import stashcount
+import filterupdate
 from shutil import copyfile
 
 
@@ -166,7 +166,7 @@ class App(tk.Tk):
         print(self.current_settings)
 
         if self.stash_tab is None:
-            self.stash_tab = RequestTab.RequestTab(settings = self.current_settings)
+            self.stash_tab = requesttab.requesttab(settings = self.current_settings)
         else:
             self.stash_tab.update(settings = self.current_settings)
 
@@ -174,7 +174,7 @@ class App(tk.Tk):
         self.count()
 
         #updating the .filter File and copying it to the game-folder
-        FilterUpdate.FilterUpdate(count = self.base_count,
+        filterupdate.filterupdate(count = self.base_count,
             max_count = self.current_settings.get('maxChaosRecipes'),
             strictness = self.current_settings.get('Strictness'))
         self.copy_filter_to_gamefolder()
@@ -183,7 +183,7 @@ class App(tk.Tk):
         print()
 
     def count(self):
-        cur_count = StashCount.StashCount(json_file = self.stash_tab.data)
+        cur_count = stashcount.stashcount(json_file = self.stash_tab.data)
         cur_count.count()
         self.base_count = cur_count.base_count
         del cur_count
